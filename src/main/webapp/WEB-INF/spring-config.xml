@@ -10,13 +10,14 @@
                            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<!-- 1. Component Scan 설정 -->
-	<context:component-scan
-		base-package="com.example" />
+	<context:component-scan base-package="com.example" />
+
+
 
 	<!-- 2. Spring MVC 활성화 -->
 	<mvc:annotation-driven />
 
-	<mvc:resources mapping="/dist/**" location="/dist/" />
+	<mvc:resources mapping="/dist/**" location="src/main/webapp/dist/" />
 
 
 </beans>

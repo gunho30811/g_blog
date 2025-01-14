@@ -22,7 +22,7 @@
 
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/api/*</url-pattern>
+    	<url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <!-- 정적 리소스 서빙 -->
@@ -41,7 +41,7 @@
         <url-pattern>/dist/*</url-pattern>
     </servlet-mapping>
 
-    <!-- Character Encoding 필터 -->
+<!--  Character Encoding 필터 -->
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -54,7 +54,6 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
-
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
