@@ -1,0 +1,2 @@
+# Java 빌드 폴더 제외
+target/
