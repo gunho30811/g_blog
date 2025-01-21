@@ -1,7 +1,7 @@
 <template>
     <header class="blog-header">
         <div class="logo">
-            <a href="/">My Blog</a>
+            <a href="/">건호 블로그</a>
         </div>
         <nav class="nav-links">
             <ul>

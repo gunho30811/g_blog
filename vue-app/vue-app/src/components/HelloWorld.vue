@@ -22,7 +22,7 @@ export default {
   },
   mounted() {
     // 하드코딩으로 id=1 요청
-    axios.get('/api/user', { params: { id: 1 } })
+    axios.get('app/api/user', { params: { id: 1 } })
       .then(response => {
         this.message = response.data; // 서버에서 받은 문자열
         this.loading = false;
