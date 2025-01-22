@@ -12,12 +12,6 @@
         console.log("Button clicked"); // 버튼 클릭 시 로그 출력
         this.$emit("toggle-chat"); // 부모 컴포넌트에 알림
       },
-      onMouseOver() {
-        console.log("Mouse over the button"); // 마우스 오버 시 로그 출력
-      },
-      onMouseLeave() {
-        console.log("Mouse left the button"); // 마우스 떠날 때 로그 출력
-      },
     },
   };
   </script>
