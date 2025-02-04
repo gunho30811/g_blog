@@ -2,25 +2,24 @@
     <div class="chat-room" v-if="isOpen">
         <div class="chat-header">
             <div class="header-title">
-                <h2>Chat Room</h2>
+                <h2>채팅</h2>
             </div>
             <div class="header-controls">
                 <!-- 톱니바퀴 아이콘 (Font Awesome 사용 예) -->
                 <button class="settings-button">
                     <i class="fa fa-cog"></i>
                 </button>
-                <!-- 날짜 선택 달력 (HTML5 date input 사용) -->
-                <VueDatePicker v-model="selectedDate" :locale="ko"
-                    :format="'yyyy-MM-dd'"
-                    > <!-- 기본 입력란 대신 달력 아이콘만 표시 -->
+                <!-- 날짜 선택 달력 -->
+                <VueDatePicker v-model="selectedDate" locale="ko" :format="'yyyy-MM-dd'"> <!-- 기본 입력란 대신 달력 아이콘만 표시 -->
                 </VueDatePicker>
             </div>
         </div>
 
         <!-- 대화 화면 -->
-        <div class="chat-messages">
+        <div class="chat-messages" ref="chatMessages">
             <p v-for="(message, index) in messages" :key="index">
                 <strong>{{ message.sender }}:</strong> {{ message.text }}
+                <span class="message-time">{{ formatTime(message.timestamp) }}</span>
             </p>
         </div>
 
@@ -59,18 +58,40 @@ export default {
                 const message = {
                     sender: "You",
                     text: this.newMessage,
+                    timestamp: new Date()
                 };
                 this.messages.push(message);
                 this.newMessage = "";
                 console.log("after reset: newMessage =", this.newMessage);
+
+                // 메시지 추가 후 자동 스크롤
+                this.$nextTick(() => {
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 50);
+      });
+
             }
         },
+        scrollToBottom() {
+            const chatContainer = this.$refs.chatMessages;
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        },
+        formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
+        }
 
     },
     watch: {
         isOpen(newVal) {
             console.log(`ChatRoom.vue: isOpen changed to ${newVal}`);
         },
+    },
+    mounted() {
+        this.scrollToBottom(); // 페이지 로드 시에도 스크롤을 아래로 이동
     },
 };
 </script>
@@ -111,6 +132,8 @@ export default {
 .header-title h2 {
     margin: 0;
     font-size: 1.2em;
+    width: 70px;
+
 }
 
 .header-controls {
@@ -143,10 +166,24 @@ export default {
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
 
+    text-align: left;
+
     /* 내용이 없을 때도 하단 정렬 */
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    /*justify-content: flex-end;*/
+}
+
+.chat-messages p {
+    margin: 0;
+    margin-top: 2px;
+    padding: 0;
+}
+
+.message-time {
+    font-size: 0.8em;
+    color: gray;
+    margin-left: 10px;
 }
 
 .chat-input {
