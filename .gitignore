@@ -1,2 +1,7 @@
 # Java 빌드 폴더 제외
 target/
+#서버 관련 application.propeties
+**/application.properties
+*.properties
+/src/main/webapp/
+target/classes

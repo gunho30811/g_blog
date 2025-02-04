@@ -8,7 +8,7 @@ const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: '/dist/',
+  publicPath: '',
 
   // Webpack 설정 확장
   chainWebpack: config => {
