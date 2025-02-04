@@ -6,7 +6,7 @@
             </div>
             <div class="header-controls">
                 <!-- 톱니바퀴 아이콘 (Font Awesome 사용 예) -->
-                <button class="settings-button">
+                <button class="settings-button" @click="openNicknameModal">
                     <i class="fa fa-cog"></i>
                 </button>
                 <!-- 날짜 선택 달력 -->
@@ -15,10 +15,20 @@
             </div>
         </div>
 
+        <!-- 닉네임 변경 모달 -->
+        <div v-if="isNicknameModalOpen" class="modal-overlay">
+            <div class="modal">
+                <h3>닉네임 변경</h3>
+                <input v-model="newNickname" placeholder="새 닉네임을 입력하세요" />
+                <button @click="changeNickname(newNickname)">변경</button>
+                <button @click="closeNicknameModal">취소</button>
+            </div>
+        </div>
+
         <!-- 대화 화면 -->
         <div class="chat-messages" ref="chatMessages">
             <p v-for="(message, index) in messages" :key="index">
-                <strong>{{ message.sender }}:</strong> {{ message.text }}
+                <strong :style="{ color: message.color }">{{ message.sender }}:</strong> {{ message.text }}
                 <span class="message-time">{{ formatTime(message.timestamp) }}</span>
             </p>
         </div>
@@ -40,6 +50,10 @@ export default {
             messages: [],
             inputKey: 0,
             selectedDate: new Date(),
+            nickname: this.generateRandomNickname("기본닉네임"),  // ✅ 기본 닉네임 랜덤 생성
+            newNickname: "",
+            nicknameColor: this.generateRandomColor(),  // ✅ 초기 색상 랜덤 설정
+            isNicknameModalOpen: false, // 모달 상태
         };
     },
     props: {
@@ -56,9 +70,10 @@ export default {
         sendMessage() {
             if (this.newMessage.trim() !== "") {
                 const message = {
-                    sender: "You",
+                    sender: this.nickname,
                     text: this.newMessage,
-                    timestamp: new Date()
+                    timestamp: new Date(),
+                    color: this.nicknameColor,  // 닉네임 색상 추가
                 };
                 this.messages.push(message);
                 this.newMessage = "";
@@ -66,12 +81,20 @@ export default {
 
                 // 메시지 추가 후 자동 스크롤
                 this.$nextTick(() => {
-        setTimeout(() => {
-          this.scrollToBottom();
-        }, 50);
-      });
+                    setTimeout(() => {
+                        this.scrollToBottom();
+                    }, 50);
+                });
 
             }
+        },
+        changeNickname(newName) {
+            this.nickname = newName.trim() !== ""
+                ? newName
+                : this.generateRandomNickname("기본닉네임");  // ✅ 닉네임 미입력 시 기본 + 랜덤 숫자
+
+            this.nicknameColor = this.generateRandomColor();  // ✅ 랜덤 색상 변경
+            this.isNicknameModalOpen = false;
         },
         scrollToBottom() {
             const chatContainer = this.$refs.chatMessages;
@@ -82,7 +105,26 @@ export default {
         formatTime(timestamp) {
             const date = new Date(timestamp);
             return date.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
-        }
+        },
+        openNicknameModal() {
+            this.isNicknameModalOpen = true;
+        },
+        closeNicknameModal() {
+            this.isNicknameModalOpen = false;
+        },
+        generateRandomColor() {
+            const letters = "0123456789ABCDEF";
+            let color = "#";
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;  // 랜덤 HEX 색상 반환
+        },
+        generateRandomNickname(baseName) {
+            const randomNumber = Math.floor(1000 + Math.random() * 9000);  // 4자리 랜덤 숫자
+            return `${baseName}${randomNumber}`;
+        },
+
 
     },
     watch: {
@@ -97,6 +139,14 @@ export default {
 </script>
 
 <style scoped>
+.settings-button {
+    background: transparent;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+
 .chat-header {
     display: flex;
     justify-content: space-between;
