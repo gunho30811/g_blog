@@ -26,4 +26,6 @@ public class ChatMessageVO {
     public void setId(Long id) { this.id = id; }
     public void setUsername(String username) { this.username = username; }
     public void setMessage(String message) { this.message = message; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    
 }

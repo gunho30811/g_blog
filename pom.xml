@@ -99,5 +99,11 @@
 			<version>8.0.33</version> <!-- 최신 버전 확인 가능 -->
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>5.3.12</version> <!-- 필요에 따라 최신 버전 확인 가능 -->
+</dependency>
+
 	</dependencies>
 </project>

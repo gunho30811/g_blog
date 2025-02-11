@@ -76,7 +76,7 @@ export default {
                     color: this.nicknameColor,  // 닉네임 색상 추가
                 };
                 try {
-                await fetch("http://localhost:8080/api/chat/send", {
+                await fetch("http://localhost:8080/app/api/chat/send", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
