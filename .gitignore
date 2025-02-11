@@ -1,5 +1,5 @@
 # Java 빌드 폴더 제외
-target/
+target/**
 #서버 관련 application.propeties
 **/application.properties
 *.properties
