@@ -67,7 +67,7 @@ export default {
             this.$emit("close-chat");
             console.log("closeChat() called in ChatRoom.vue");
         },
-        sendMessage() {
+        async sendMessage() {
             if (this.newMessage.trim() !== "") {
                 const message = {
                     sender: this.nickname,
@@ -75,6 +75,20 @@ export default {
                     timestamp: new Date(),
                     color: this.nicknameColor,  // 닉네임 색상 추가
                 };
+                try {
+                await fetch("http://localhost:8080/api/chat/send", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        username: message.sender, // Spring이 username을 받음
+                        message: message.text, // 메시지 내용
+                        timestamp: message.timestamp, // 날짜
+                    }),
+                });
+                console.log("✅ 메시지 전송 완료", message);
+
                 this.messages.push(message);
                 this.newMessage = "";
                 console.log("after reset: newMessage =", this.newMessage);
@@ -86,8 +100,10 @@ export default {
                     }, 50);
                 });
 
+            } catch(error){
+                console.error("❌ 메시지 전송 실패", error);
             }
-        },
+        }},
         changeNickname(newName) {
             this.nickname = newName.trim() !== ""
                 ? newName
