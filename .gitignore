@@ -5,3 +5,4 @@ target/
 *.properties
 /src/main/webapp/
 target/classes
+src/main/resources/datasource.xml
