@@ -79,8 +79,9 @@ export default {
                 await fetch("http://localhost:8080/app/api/chat/send", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
-                    },
+                    "Content-Type": "application/json;charset=UTF-8",  // ✅ Content-Type 명확하게 설정
+                    "Accept": "application/json"
+                },
                     body: JSON.stringify({
                         username: message.sender, // Spring이 username을 받음
                         message: message.text, // 메시지 내용
