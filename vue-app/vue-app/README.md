@@ -22,3 +22,9 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## src/main/resources 쪽에
+application.properties 
+datasource.xml 
+생성 해야 합니다.
